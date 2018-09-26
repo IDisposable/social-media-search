@@ -23,10 +23,10 @@
       "matches": ["http://*/*", "https://*/*"]
   }],
   "icons": {
-    "16": "images/icon.png",
-    "32": "images/icon.png",
-    "48": "images/icon.png",
-    "128": "images/icon.png"
+    "16": "images/lenny.png",
+    "32": "images/lenny.png",
+    "48": "images/lenny.png",
+    "128": "images/lenny.png"
   },
   "manifest_version": 2
 }

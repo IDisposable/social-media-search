@@ -12,6 +12,7 @@ let socialMediaKeys = {
     "twitter": true
 };
 
+// Media Site URLs and their Suffixes
 const facebookURL = 'https://www.facebook.com/search/people/?q=';
 const googleURL = 'http://www.google.com/search?q=';
 const linkedinURL = 'https://www.linkedin.com/search/results/all/?keywords=';
@@ -21,12 +22,32 @@ const twitterLang = '&src=typd&lang=en';
 const instagramURL = 'https://web.stagram.com/search?query=';
 
 chrome.runtime.onInstalled.addListener(function() {
-
     // Init the Extension to show
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
         chrome.declarativeContent.onPageChanged.addRules([{
             conditions: [new chrome.declarativeContent.PageStateMatcher({
                 pageUrl: {urlContains: '.com'},
+            })],
+            actions: [new chrome.declarativeContent.ShowPageAction()]
+        }]);
+
+        chrome.declarativeContent.onPageChanged.addRules([{
+            conditions: [new chrome.declarativeContent.PageStateMatcher({
+                pageUrl: {urlContains: '.net'},
+            })],
+            actions: [new chrome.declarativeContent.ShowPageAction()]
+        }]);
+
+        chrome.declarativeContent.onPageChanged.addRules([{
+            conditions: [new chrome.declarativeContent.PageStateMatcher({
+                pageUrl: {urlContains: '.io'},
+            })],
+            actions: [new chrome.declarativeContent.ShowPageAction()]
+        }]);
+
+        chrome.declarativeContent.onPageChanged.addRules([{
+            conditions: [new chrome.declarativeContent.PageStateMatcher({
+                pageUrl: {urlContains: '.org'},
             })],
             actions: [new chrome.declarativeContent.ShowPageAction()]
         }]);
@@ -46,63 +67,44 @@ chrome.runtime.onInstalled.addListener(function() {
             })
         }
     });
+});
 
-    // Open Tab logic for each social media site.
-    function openSocialMediaSites(selectedText) {
-        //Get the stored values:
-        chrome.storage.sync.get(['mediaKeys'], function(data){
-            let mediaKeys = data.mediaKeys;
+// Open Tab logic for each social media site.
+function openSocialMediaSites(selectedText) {
+    //Get the stored values:
+    chrome.storage.sync.get(['mediaKeys'], function(data){
+        let mediaKeys = data.mediaKeys;
 
-            for(let key in mediaKeys) {
-                if (mediaKeys.hasOwnProperty(key)) {
-                    if(mediaKeys[key] === true) {
-                        // Open URL tab for that key.
-                        switch(key){
-                            case 'facebook': searchFacebook(selectedText); break;
-                            case 'google': searchGoogle(selectedText); break;
-                            case 'instagram': searchInstagram(selectedText); break;
-                            case 'linkedin': searchLinkedin(selectedText); break;
-                            case 'twitter': searchTwitter(selectedText); break;
-                            default: console.log("no default");  //TODO: Come back here.
-                        }
+        for(let key in mediaKeys) {
+            if (mediaKeys.hasOwnProperty(key)) {
+                if(mediaKeys[key] === true) {
+                    // Open URL tab for that key.
+                    switch(key){
+                        case 'facebook': searchURL(selectedText, facebookURL, ''); break;
+                        case 'google': searchURL(selectedText, googleURL, ''); break;
+                        case 'instagram': searchURL(selectedText, instagramURL, ''); break;
+                        case 'linkedin': searchURL(selectedText, linkedinURL, linkedinGlobalFlag); break;
+                        case 'twitter': searchURL(selectedText, twitterURL, twitterLang); break;
+                        default: console.log("Safe Space");
                     }
                 }
             }
-        })
-    }
+        }
+    })
+}
 
-    // https://www.facebook.com/search/people/?q=test
-    function searchFacebook(name) {
-        chrome.tabs.create({url: facebookURL + name});
-    }
+function searchURL(name, address, suffix) {
+    chrome.tabs.create({url: address + name + suffix})
+}
 
-    function searchGoogle(name) {
-        chrome.tabs.create({url: googleURL + name});
-    }
+// Create the right-click Menu
+chrome.contextMenus.create({
+    id: "mediaContextMenu",
+    title: "Search Social Media Sites",
+    contexts: ["selection"]
+});
 
-    // https://web.stagram.com/search?query=daiokaio
-    function searchInstagram(name) {
-        chrome.tabs.create({url: instagramURL + name});
-    }
-
-    // Sample: https://www.linkedin.com/search/results/all/?keywords=phillip&origin=GLOBAL_SEARCH_HEADER
-    function searchLinkedin(name) {
-        chrome.tabs.create({url: linkedinURL + name + linkedinGlobalFlag});
-    }
-
-    // https://twitter.com/search?q=daiokaio&src=typd&lang=en
-    function searchTwitter(name) {
-        chrome.tabs.create({url: twitterURL + name + twitterLang});
-    }
-
-    chrome.contextMenus.create({
-        id: "linkedin",
-        title: "Search Social Media Sites",
-        contexts: ["selection"]
-    });
-
-    // Add EventListener for the Right-Clicked contextMenu.
-    chrome.contextMenus.onClicked.addListener(function(info, tab) {
-        openSocialMediaSites(info.selectionText);
-    });
+// Add EventListener for the Right-Clicked contextMenu.
+chrome.contextMenus.onClicked.addListener(function(info, tab) {
+    openSocialMediaSites(info.selectionText);
 });
