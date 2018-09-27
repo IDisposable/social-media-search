@@ -11,8 +11,19 @@ a person's online _handle_ or email address. However, the extension makes to dis
 - On the top right corner toggle `Developer Mode` to `on`. 
 - For development purposes, you can simply `Load Unpacked`.
 - Click `Pack Extension` to build. 
-- ??? 
-- Profit
+- Browse folder where your build exist
+- Chrome will create 2 files:
+    - A `.crx` file, which is the packed extension
+    - A `.pem` file, which is Signed Certificate
+
+### Adding Packed Extension
+This is the easy-peasy part. Simply go back to `chrome://extensions` page:
+
+    - Drag and Drop the `.crx` file. 
+    - Confirm extension installation.  
+    - Confirm.
+    - ???
+    - Profit. 
 
 
 ### How to use:
