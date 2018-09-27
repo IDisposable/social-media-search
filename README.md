@@ -66,6 +66,9 @@ const twitterURL = 'https://twitter.com/search?q=';
 const twitterLang = '&src=typd&lang=en';
 const instagramURL = 'https://web.stagram.com/search?query=';
 ```
+
+Also update the `switch` statement on line: `82-88`. 
+
 **Note how some sites require a suffix, make sure you have a the correct path!**
 
 Finally, go to `popup.js` and add the same thing you did on `background.js`. (I know, I know... Bad coding)
