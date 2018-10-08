@@ -5,21 +5,33 @@
 'use strict';
 
 let socialMediaKeys = {
-    "google": true,
-    "linkedin": true,
     "facebook": true,
+    "github": true,
+    "google": true,
     "instagram": true,
+    "keybase": true,
+    "linkedin": true,
+    "stackoverflow": true,
     "twitter": true
 };
 
 // Media Site URLs and their Suffixes
 const facebookURL = 'https://www.facebook.com/search/people/?q=';
 const googleURL = 'http://www.google.com/search?q=';
+
 const linkedinURL = 'https://www.linkedin.com/search/results/all/?keywords=';
 const linkedinGlobalFlag = '&origin=GLOBAL_SEARCH_HEADER';
+
 const twitterURL = 'https://twitter.com/search?q=';
 const twitterLang = '&src=typd&lang=en';
+
 const instagramURL = 'https://web.stagram.com/search?query=';
+
+const stackoverflow = 'https://stackoverflow.com/users';
+const keybase = 'https://keybase.io/';
+
+const github = 'https://github.com/search?q=';
+const githubSuffix = '&type=Users';
 
 chrome.runtime.onInstalled.addListener(function() {
     // Init the Extension to show
@@ -81,9 +93,12 @@ function openSocialMediaSites(selectedText) {
                     // Open URL tab for that key.
                     switch(key){
                         case 'facebook': searchURL(selectedText, facebookURL, ''); break;
+                        case 'github': searchURL(selectedText, github, githubSuffix); break;
                         case 'google': searchURL(selectedText, googleURL, ''); break;
                         case 'instagram': searchURL(selectedText, instagramURL, ''); break;
+                        case 'keybase': searchURL(selectedText, keybase, ''); break;
                         case 'linkedin': searchURL(selectedText, linkedinURL, linkedinGlobalFlag); break;
+                        case 'stackoverflow': searchStackOverflow(selectedText, stackoverflow, ''); break;
                         case 'twitter': searchURL(selectedText, twitterURL, twitterLang); break;
                         default: console.log("Safe Space");
                     }
@@ -95,6 +110,12 @@ function openSocialMediaSites(selectedText) {
 
 function searchURL(name, address, suffix) {
     chrome.tabs.create({url: address + name + suffix})
+}
+
+function searchStackOverflow(name, address) {
+    chrome.tabs.create({url: address + name}, () => {
+        //Logic in here to insert script.
+    })
 }
 
 // Create the right-click Menu

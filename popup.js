@@ -5,10 +5,13 @@
 'use strict';
 
 let socialMediaKeys = {
-    "google": true,
-    "linkedin": true,
     "facebook": true,
+    "github": true,
+    "google": true,
     "instagram": true,
+    "keybase": true,
+    "linkedin": true,
+    "stackoverflow": true,
     "twitter": true
 };
 
