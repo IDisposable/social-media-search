@@ -1,6 +1,6 @@
 {
   "name": "Search on Social Media",
-  "version": "1.0",
+  "version": "2.0",
   "description": "Search Social Media Platforms by highlighted text",
   "permissions": ["activeTab", "declarativeContent", "contextMenus", "tabs", "storage", "https://stackoverflow.com/*"],
   "options_page": "options.html",

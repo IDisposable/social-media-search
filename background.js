@@ -119,28 +119,29 @@ function searchStackOverflow(name, address) {
             //Logic in here to insert script.
             //stackoverflow input field id: userfilter  && f-input s-filter-input
             chrome.tabs.executeScript(tab.id, {code: `(function(){
-                // Since we can't pass in values into here, then we need to retrieve the highlighted text value
-                // From Local storage. =)
+                // Since we can't pass in values into here, then we need to retrieve the highlighted text value From Local storage. =)
                 chrome.storage.sync.get(['selectionValue'], function(data){
                     var count = 20; 
                     
-                    function changeLoginWhenExists(){
+                    function addTextToUserField(){
                         var inputField = document.getElementsByClassName('f-input s-filter-input')[0];
                         
                         if( inputField ){
+                            // Focus on the inputField and set its value. 
                             inputField.focus();
                             inputField.value = data.selectionValue;
                             
+                            // Invoke a tab press so it can start searching. 
                             var e = new KeyboardEvent('keydown',{'keyCode':32,'which':32});
                             inputField.dispatchEvent(e);
                         } else {
                             if(count-- > 0 ){
                                 //The elements we need don't exist yet, wait a bit to try again.
-                                setTimeout(changeLoginWhenExists,250);
+                                setTimeout(addTextToUserField,250);
                             }
                         }
                     }
-                    changeLoginWhenExists();
+                    addTextToUserField();
                 });
             })();`});
         })
