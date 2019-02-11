@@ -17,11 +17,6 @@
       "128": "images/icon.png"
     }
   },
-  "content_scripts": [{
-      "js": ["material/material.min.js", "popup.js"],
-      "css": ["material/material.min.css"],
-      "matches": ["http://*/*", "https://*/*"]
-  }],
   "icons": {
     "16": "images/lenny.png",
     "32": "images/lenny.png",
